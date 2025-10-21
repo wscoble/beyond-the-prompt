@@ -78,6 +78,26 @@ Yeah. That's the problem.
 
 ---
 
+# So I Asked Claude Code
+
+"How do we sandbox this?"
+
+--
+
+And that's when I learned something important.
+
+--
+
+**The answer depends on what Claude knows.**
+
+???
+
+This is the bridge. We go from the sandboxing problem to the realization that Claude's answer quality depends on the context it has.
+
+This sets up why context window economics matters - it's not theoretical, it directly affects the quality of solutions you get.
+
+---
+
 class: center, middle
 
 # Part 1: The Problem
@@ -86,7 +106,7 @@ class: center, middle
 
 ???
 
-Before I tell you what happened with the sandboxing decision, you need to understand the constraint we were operating under: the AI context window.
+Now we transition to explaining the constraint. The audience understands WHY we're talking about this - because it affects the sandboxing solution.
 
 This is the foundation that makes everything else possible.
 
@@ -94,11 +114,11 @@ This is the foundation that makes everything else possible.
 
 # The Context Window Problem
 
-**Question**: How many ADRs does your project have?
+**Question**: How much documentation does your project have?
 
 --
 
-FLUO has 15. Plus 10 technical domains. Plus 7 perspectives we need on every decision.
+FLUO has 15 ADRs. Plus 10 technical domains. Plus 7 subagent perspectives we need on every decision.
 
 --
 
@@ -118,7 +138,7 @@ Traditional approach: load all 15 ADRs. That's 75,000 tokens before writing a si
 
 The AI can't even start. The context window is full of documentation.
 
-Make this relatable: they face this too.
+note: ask questions from the group on their documentation excess.
 
 ---
 
@@ -180,6 +200,10 @@ This three-tier system is why we can have 10 skills, 7 subagents, and still use 
 = Context window exhausted
 ```
 
+???
+
+Here's where we started. We loaded all the ADRs upfront and exhausted our token budget. I was compacting every 3 or 4 requests.
+
 --
 
 **With Skills + Subagents**:
@@ -192,39 +216,55 @@ When 2-3 trigger: +3,000 tokens instructions
 Total active: ~5,000 tokens
 ```
 
+???
+
+With Skills and Subagents: 1,700 tokens for all metadata. When 2-3 trigger based on your task, you add about 3,000 more. Total: 5,000 tokens for full guidance.
+
 --
 
 **Result**: 95% token reduction, 97% faster
 
 ???
 
-Let's look at FLUO's actual numbers.
-
-Traditional approach: 75,000 tokens. Can't even start.
-
-With Skills and Subagents: 1,700 tokens for all metadata. When 2-3 trigger based on your task, you add about 3,000 more. Total: 5,000 tokens for full guidance.
-
 That's a 95% reduction. And because we're not loading massive documents, execution is 97% faster.
 
-But the real win isn't speed. It's preventing waste. Let me show you what I mean.
+But the real win isn't speed. It's preventing waste.
 
 ---
 
-# The Takeaway
+# Quick Check
 
-Count your documentation: ADRs × 1,500 tokens
+Count your functional docs × 1,500 tokens
 
-If >10K, progressive disclosure solves it.
+--
+
+If >10K, you need this.
+
+--
+
+Now let me show you **why** this matters.
 
 ???
 
-Here's your first call to action. Go back to your project. Count your ADRs or equivalent documentation. Multiply by 1,500 tokens each.
+Quick audience check - how big is their documentation? This makes it personal.
 
-If you're over 10,000 tokens, you have a context window problem. Start migrating to Skills.
+If they're over 10K tokens, they have the same problem FLUO had.
 
-Don't migrate everything. Start with one critical constraint - something AI always violates. Make it a skill. See how it works.
+Now we go back to the sandboxing story to show how this actually prevented disaster.
 
-Now let me show you why this matters by telling you what happened when we tried to solve sandboxing.
+---
+
+class: center, middle
+
+# Back to Sandboxing
+
+Remember: user code running in our JVM
+
+???
+
+We're circling back to the opening problem. The audience remembers the setup.
+
+Now they'll see how the context window solution (Skills + Subagents) saved us from making a terrible decision.
 
 ---
 
@@ -232,45 +272,49 @@ class: center, middle
 
 # Part 2: The Pattern
 
-## Skills + Subagents
+## Building a Dream Team
+
+We're assembling subagents and giving them superpowers (skills)
 
 ???
 
-Now we get to the good part. The sandboxing decision.
+Now we name the pattern with a relatable metaphor: building a dream team.
 
-Remember: we need to prevent user-defined Drools rules from accessing our service layer. This is a security-critical feature.
+Each subagent is like a team member with their own perspective. Skills are their superpowers - the knowledge and constraints they enforce.
 
-Here's how four different AI subagents each brought their perspective to the table.
+The audience has seen the problem (sandboxing), understands the constraint (context windows), and now they'll see the solution: a team of AI agents working together.
+
+Here's how four different subagents each brought their perspective to the table.
 
 ---
 
-# Round 1: Implementation Specialist
+# The Implementer Speaks
 
-I asked Claude: "Sandbox user-defined Drools rules"
+"Use Java SecurityManager. Two weeks, done."
 
---
+???
 
-Response: "Java SecurityManager. Two weeks."
+First team member: the implementer. This agent wants to ship fast.
+
+Java SecurityManager. Two-week estimate. Sounds perfect.
 
 --
 
 **Show of hands**: How many would ship this?
 
+???
+
+Ask the audience: would you ship this? Most hands go up. We all want fast solutions.
+
 --
 
-I almost did.
+I was ready to.
 
 ???
 
-The implementation specialist is the "ship it" agent. It wants results fast.
+Then reveal: I was ready to. But then another team member spoke up.
 
-Java SecurityManager. Two weeks. 90% confidence. Sounds perfect.
-
-Ask the audience: would you ship this? Get a feel for the room.
-
-Then reveal: I almost did. But something stopped me.
-
-Build suspense about what comes next.
+Build suspense about what saved us.
 
 ---
 
@@ -278,31 +322,29 @@ Build suspense about what comes next.
 
 Then the architecture agent spoke up.
 
---
-
-"SecurityManager? **Deprecated in Java 17.**"
-
---
-
-"You're upgrading to Java 21 in 6 months, right?"
-
---
-
-Oh no.
-
 ???
 
 The architecture guardian reviews everything against our ADRs. It's relentless.
 
+--
+
+"SecurityManager? **Deprecated in Java 17.**"
+
+???
+
 It caught something I missed: SecurityManager is deprecated. Removed in Java 21.
 
-We're planning to upgrade in 6 months.
+???
+
+--
+
+Oh no. We're using Java 25.
+
+???
 
 Pause here. Let it sink in. The audience gets it: we would have shipped dead code.
 
-Two weeks now. Ten weeks rewriting later. Total: 12 weeks.
-
-The "fast" solution just became the slow one.
+The "fast" solution just became the impossible one.
 
 ---
 
@@ -310,9 +352,13 @@ The "fast" solution just became the slow one.
 
 "Even if SecurityManager wasn't deprecated..."
 
---
-
 "...it's bypassable with reflection."
+
+???
+
+The security expert is brutal. OWASP compliance is non-negotiable.
+
+SecurityManager has known vulnerabilities. Reflection bypass. No resource limits. A malicious rule could DoS the entire system.
 
 --
 
@@ -323,10 +369,6 @@ The "fast" solution just became the slow one.
 **Question**: Would you ship 3/10 security to production?
 
 ???
-
-The security expert is brutal. OWASP compliance is non-negotiable.
-
-SecurityManager has known vulnerabilities. Reflection bypass. No resource limits. A malicious rule could DoS the entire system.
 
 Ask the audience: Would you ship 3/10 security?
 
@@ -355,8 +397,6 @@ The QA expert is fanatical about quality. It doesn't trust any implementation wi
 
 It defines what testing looks like: Attack simulations trying to bypass each layer. Performance tests to ensure sandboxing doesn't kill throughput. Multi-tenant isolation tests. Resource exhaustion edge cases. Concurrency stress tests.
 
-This adds another week. We're now at 6 weeks total, up from the original 2.
-
 The implementation specialist is starting to sweat. The product manager hasn't even weighed in yet.
 
 ---
@@ -374,6 +414,10 @@ Security: 3/10
 Risk: Complete rewrite needed in 6 months
 ```
 
+???
+
+Time in AI-speak isn't real; it's relative. Option A looks pretty terrible.
+
 --
 
 **Option B: Capability-based security**
@@ -383,17 +427,21 @@ Security: 10/10
 Risk: None (future-proof)
 ```
 
---
+???
+
+Half the time and 10/10 security score? Sign me up!
+
+---
+
+# Round 5: Product Manager
+
+**Product Manager evaluates the trade-off**:
 
 > "Ship capability-based security. The 4-week investment now saves 6 weeks later, and we get 10/10 security instead of 3/10."
 
 ???
 
 Finally, the product manager looks at this through the lens of total cost and customer value.
-
-Option A: SecurityManager. Looks like 2 weeks, but it's actually 12 weeks total - 2 now, 10 for the rewrite in 6 months. And we ship 3/10 security in the meantime.
-
-Option B: Capability-based security. 6 weeks now, 0 weeks later. Future-proof. 10/10 security.
 
 The math is obvious. The 4-week delta upfront saves us 6 weeks of rework. Plus we don't ship a security vulnerability.
 
@@ -405,13 +453,9 @@ Decision made. Ship capability-based security.
 
 So after all that evaluation... how long did it take?
 
---
+---
 
-**3 days.**
-
---
-
-Wait, what?
+# 3 Days
 
 --
 
@@ -419,11 +463,15 @@ The subagents made all the hard decisions. Claude Code just implemented them.
 
 ???
 
-Here's the magic. The subagents argued for 30 minutes. They caught:
+--
+
+They caught:
 - Java 17 deprecation
 - Security vulnerabilities
 - Testing requirements
 - Total cost analysis
+
+???
 
 Then I asked Claude Code to implement capability-based security with 4 layers.
 
