@@ -10,6 +10,14 @@ body {
     background: white !important;
 }
 
+.remark-notes-preview-area {
+    display: none;
+}
+
+.remark-notes {
+    height: 100vw;
+}
+
 .remark-slide-scaler {
     background: white !important;
 }
@@ -20,7 +28,7 @@ body {
 
 .remark-slide-content {
     background: white !important;
-    padding: 60px 80px;
+    padding: 40px 80px 60px 80px;
 }
 
 /* Headings */
@@ -194,10 +202,10 @@ em {
     opacity: 0;
 }
 
-/* Syntax highlighting adjustments for monokai */
+/* Syntax highlighting - light theme to match pre blocks */
 .hljs {
-    background: #272822 !important;
-    color: #f8f8f2 !important;
+    background: #f8f9fa !important;
+    color: #2c3e50 !important;
     padding: 1.2em !important;
     border-radius: 6px;
 }
@@ -205,24 +213,30 @@ em {
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-literal {
-    color: #f92672 !important;
+    color: #5277c3 !important;
+    font-weight: 600;
 }
 
 .hljs-string,
 .hljs-title,
 .hljs-section {
-    color: #e6db74 !important;
+    color: #0d6efd !important;
 }
 
 .hljs-type,
 .hljs-class .hljs-title {
-    color: #66d9ef !important;
+    color: #198754 !important;
 }
 
 .hljs-number,
 .hljs-regexp,
 .hljs-link {
-    color: #ae81ff !important;
+    color: #d63384 !important;
+}
+
+.hljs-comment {
+    color: #6c757d !important;
+    font-style: italic;
 }
 
 /* Checkmarks and X marks */

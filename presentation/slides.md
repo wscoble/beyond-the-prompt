@@ -6,7 +6,9 @@ class: center, middle
 
 ???
 
-Welcome everyone. Today I'm going to tell you a story about how we almost made a catastrophic architectural decision, and how a team of AI subagents caught it before we wrote a single line of code.
+⏱️ TIME: 0:00 - 0:30 (0.5 min)
+
+Thanks for coming.
 
 This is a true story from the FLUO project - a behavioral assurance platform for OpenTelemetry. The names haven't been changed because I am not innocent.
 
@@ -14,19 +16,23 @@ This is a true story from the FLUO project - a behavioral assurance platform for
 
 # Who Am I?
 
+<img src="assets/images/onebrief-careers.png" style="position: absolute; bottom: 60px; left: 100px; width: 240px; height: 240px; object-fit: cover;">
+
 <img src="assets/images/profile.jpg" style="position: absolute; bottom: 60px; right: 100px; width: 340px; height: 340px; border-radius: 50%; object-fit: cover;">
 
 **Scott Scoble**
 
-Breaking builds since the 90s
+Senior Software Engineer at Onebrief -- *we're hiring!*
 
 ???
 
-Like most of you, I break builds; but I've been doing it since the late 90s.
+⏱️ TIME: 2:00 - 4:00 (2.0 min)
+
+I'm a Sr SWE currently at Onebrief. We're hiring. If you're interested, scan the QR code or go to onebrief dot com. Tell them I sent you when they ask.
 
 --
 
-Building Fluo - otel traces to behavioral signals
+Building Fluo -- otel traces to behavioral signals
 
 ???
 
@@ -48,6 +54,8 @@ class: center, middle
 
 ???
 
+⏱️ TIME: 4:00 - 4:30 (0.5 min)
+
 Let's dive in.
 
 ---
@@ -58,19 +66,19 @@ Let's dive in.
 
 ???
 
-October 2025. We're building FLUO. Users write custom rules using OGNL to match patterns in telemetry traces.
+⏱️ TIME: 4:30 - 6:30 (2.0 min)
 
-But here's the scary part: their code runs in OUR JVM. They could access our database, call our APIs, exfiltrate data.
+Over the past few months I've been building FLUO. Users write custom rules using OGNL to match patterns in telemetry traces. But here's the scary part: their code runs in OUR JVM. They could access our database, call our APIs, exfiltrate data.
+
+Remember Log4J?
 
 --
 
-**Quick question**: How many of you have had user code running in your project?
+**Quick question**: How many of you have had user code running on your server?
 
 ???
 
-Ask the audience: How many have dealt with this?
-
-note: Sets up the shared pain point.
+How many of you have customer code running on your server?
 
 --
 
@@ -82,19 +90,27 @@ Yeah. That's the problem.
 
 "How do we sandbox this?"
 
+???
+
+⏱️ TIME: 6:30 - 8:00 (1.5 min)
+
+I asked Claude how we could have these conditions running inside our JVM through a sandboxing strategy.
+
 --
 
-And that's when I learned something important.
-
---
-
-**The answer depends on what Claude knows.**
+And that's when I saw Claude auto-compacting our coversation again after only a few minutes.
 
 ???
 
-This is the bridge. We go from the sandboxing problem to the realization that Claude's answer quality depends on the context it has.
+Claude was compacting again; why?
 
-This sets up why context window economics matters - it's not theoretical, it directly affects the quality of solutions you get.
+--
+
+**The answer depends on what Claude knows. And space is limited.**
+
+???
+
+Claude could only act on what it knows, but it can't know everything.
 
 ---
 
@@ -106,9 +122,9 @@ class: center, middle
 
 ???
 
-Now we transition to explaining the constraint. The audience understands WHY we're talking about this - because it affects the sandboxing solution.
+⏱️ TIME: 8:00 - 8:30 (0.5 min)
 
-This is the foundation that makes everything else possible.
+Let's dive deeper into Claude's context problem.
 
 ---
 
@@ -116,25 +132,35 @@ This is the foundation that makes everything else possible.
 
 **Question**: How much documentation does your project have?
 
+???
+
+⏱️ TIME: 8:30 - 11:30 (3.0 min)
+
+How much documentation does your project have? Can it all fit in Claude's context window? How many ADRs?
+
 --
 
 FLUO has 15 ADRs. Plus 10 technical domains. Plus 7 subagent perspectives we need on every decision.
 
+???
+
+FLUO is complex: Nix, Quarkus, React, custom DSL. And we need input from PM, EM, TL, SecOps, SRE, BA, CS on every feature.
+
 --
 
 **If we loaded everything**: 75,000 tokens
+
+???
+
+Traditional approach: load all 15 ADRs. That's 75,000 tokens before writing a single line of code.
+
+Traditional in the sense of the past 6 months or so.
 
 --
 
 Your context window is... gone.
 
 ???
-
-Ask the audience to think about their own projects. How many ADRs? How much documentation?
-
-FLUO is complex: Nix, Quarkus, React, custom DSL. And we need input from PM, EM, TL, SecOps, SRE, BA, CS on every feature.
-
-Traditional approach: load all 15 ADRs. That's 75,000 tokens before writing a single line of code.
 
 The AI can't even start. The context window is full of documentation.
 
@@ -154,6 +180,8 @@ description: OWASP review, compliance controls
 
 ???
 
+⏱️ TIME: 18:30 - 20:30 (2.0 min)
+
 The solution is called progressive disclosure, and it's built into Anthropic's Skills system.
 
 Level 1: Just metadata. Name and description. About 100 tokens. This is ALWAYS loaded. It's how Claude knows what expertise is available.
@@ -172,6 +200,8 @@ Level 1: Just metadata. Name and description. About 100 tokens. This is ALWAYS l
 
 ???
 
+⏱️ TIME: 20:30 - 21:30 (1.0 min)
+
 Level 2: Instructions. The actual "how to" guidance. About 1,000 tokens. Only loads when Claude determines it's relevant to your task.
 
 ---
@@ -185,6 +215,8 @@ Level 2: Instructions. The actual "how to" guidance. About 1,000 tokens. Only lo
 ```
 
 ???
+
+⏱️ TIME: 21:30 - 22:30 (1.0 min)
 
 Level 3: Resources. Detailed checklists, threat models, code examples. Unlimited size. Never loaded into context - accessed on-demand via filesystem.
 
@@ -201,6 +233,8 @@ This three-tier system is why we can have 10 skills, 7 subagents, and still use 
 ```
 
 ???
+
+⏱️ TIME: 22:30 - 25:30 (3.0 min)
 
 Here's where we started. We loaded all the ADRs upfront and exhausted our token budget. I was compacting every 3 or 4 requests.
 
@@ -246,6 +280,8 @@ Now let me show you **why** this matters.
 
 ???
 
+⏱️ TIME: 25:30 - 29:30 (4.0 min)
+
 Quick audience check - how big is their documentation? This makes it personal.
 
 If they're over 10K tokens, they have the same problem FLUO had.
@@ -262,9 +298,11 @@ Remember: user code running in our JVM
 
 ???
 
+⏱️ TIME: 29:30 - 32:30 (3.0 min)
+
 We're circling back to the opening problem. The audience remembers the setup.
 
-Now they'll see how the context window solution (Skills + Subagents) saved us from making a terrible decision.
+Now they'll see how the context window solution (Skills + Subagents) saved me from making a terrible decision.
 
 ---
 
@@ -277,6 +315,8 @@ class: center, middle
 We're assembling subagents and giving them superpowers (skills)
 
 ???
+
+⏱️ TIME: 32:30 - 34:30 (2.0 min)
 
 Now we name the pattern with a relatable metaphor: building a dream team.
 
@@ -293,6 +333,8 @@ Here's how four different subagents each brought their perspective to the table.
 "Use Java SecurityManager. Two weeks, done."
 
 ???
+
+⏱️ TIME: 34:30 - 38:30 (4.0 min)
 
 First team member: the implementer. This agent wants to ship fast.
 
@@ -318,11 +360,13 @@ Build suspense about what saved us.
 
 ---
 
-# Round 2: Architecture Guardian
+# The Architect Interrupts
 
 Then the architecture agent spoke up.
 
 ???
+
+⏱️ TIME: 38:30 - 43:30 (5.0 min)
 
 The architecture guardian reviews everything against our ADRs. It's relentless.
 
@@ -332,13 +376,17 @@ The architecture guardian reviews everything against our ADRs. It's relentless.
 
 ???
 
+⏱️ TIME: 38:30 - 43:30 (5.0 min)
+
 It caught something I missed: SecurityManager is deprecated. Removed in Java 21.
 
 ???
 
+SecurityManager isn't even available anymore, and it has vulnerabilities.
+
 --
 
-Oh no. We're using Java 25.
+We're using Java 25.
 
 ???
 
@@ -348,13 +396,15 @@ The "fast" solution just became the impossible one.
 
 ---
 
-# Round 3: Security Expert
+# Security Weighs In
 
 "Even if SecurityManager wasn't deprecated..."
 
 "...it's bypassable with reflection."
 
 ???
+
+⏱️ TIME: 43:30 - 45:30 (2.0 min)
 
 The security expert is brutal. OWASP compliance is non-negotiable.
 
@@ -378,7 +428,7 @@ That's the value of having a security expert review BEFORE writing code.
 
 ---
 
-# Round 4: QA Expert
+# QA Demands Tests
 
 Testing requirements:
 - Attack simulations (reflection bypass)
@@ -393,6 +443,8 @@ Testing requirements:
 
 ???
 
+⏱️ TIME: 45:30 - 46:30 (1.0 min)
+
 The QA expert is fanatical about quality. It doesn't trust any implementation without comprehensive tests.
 
 It defines what testing looks like: Attack simulations trying to bypass each layer. Performance tests to ensure sandboxing doesn't kill throughput. Multi-tenant isolation tests. Resource exhaustion edge cases. Concurrency stress tests.
@@ -401,7 +453,7 @@ The implementation specialist is starting to sweat. The product manager hasn't e
 
 ---
 
-# Round 5: Product Manager
+# Product Does the Math
 
 **Product Manager evaluates the trade-off**:
 
@@ -415,6 +467,8 @@ Risk: Complete rewrite needed in 6 months
 ```
 
 ???
+
+⏱️ TIME: 46:30 - 51:30 (5.0 min)
 
 Time in AI-speak isn't real; it's relative. Option A looks pretty terrible.
 
@@ -433,7 +487,7 @@ Half the time and 10/10 security score? Sign me up!
 
 ---
 
-# Round 5: Product Manager
+# Product Does the Math
 
 **Product Manager evaluates the trade-off**:
 
@@ -441,9 +495,11 @@ Half the time and 10/10 security score? Sign me up!
 
 ???
 
+⏱️ TIME: 51:30 - 59:30 (8.0 min)
+
 Finally, the product manager looks at this through the lens of total cost and customer value.
 
-The math is obvious. The 4-week delta upfront saves us 6 weeks of rework. Plus we don't ship a security vulnerability.
+The math is obvious. The 4-week delta upfront saves me 6 weeks of rework. Plus we don't ship a security vulnerability.
 
 Decision made. Ship capability-based security.
 
@@ -453,15 +509,30 @@ Decision made. Ship capability-based security.
 
 So after all that evaluation... how long did it take?
 
+
+???
+
+⏱️ TIME: 59:30 - 1:06:30 (7.0 min)
+
+So how long did it take this collection of agents to implement the final design?
+
 ---
 
 # 3 Days
+
+???
+
+⏱️ TIME: 1:06:30 - 1:11:30 (5.0 min)
+
+Just three days of chats; totalling about 6 hours of my time!
 
 --
 
 The subagents made all the hard decisions. Claude Code just implemented them.
 
 ???
+
+The subagents make the hard decisions and explained why. Claude was able to just do the right implementation the first time.
 
 --
 
@@ -472,10 +543,6 @@ They caught:
 - Total cost analysis
 
 ???
-
-Then I asked Claude Code to implement capability-based security with 4 layers.
-
-It took 3 days.
 
 Why so fast? Because all the decisions were made. No backtracking. No "oh wait, this won't work." No rework.
 
@@ -493,9 +560,11 @@ Document it. See what changes.
 
 ???
 
+⏱️ TIME: 1:11:30 - 1:15:30 (4.0 min)
+
 Here's your second call to action. Think about your project. What's the one thing AI always gets wrong?
 
-For us, it was suggesting Python dependencies when we wanted pure Nix. For you, it might be "never use eval()", "always validate user input", "follow our naming conventions".
+For me, it was suggesting Python dependencies when we wanted pure Nix. For you, it might be "never use eval()", "always validate user input", "follow our naming conventions".
 
 Whatever it is, create a skill for it today. Just one. Put it in a `.skills/` directory. Add YAML frontmatter with a clear description.
 
@@ -509,79 +578,178 @@ Now let me show you how this pattern prevents waste at scale.
 
 class: center, middle
 
-# Part 3: The Outcome
+# Part 3: How to Build This
 
-## Preventing Waste at Scale
+## Specifics, not theory
 
 ???
 
-The sandboxing decision saved us 12 weeks. But that's just one feature.
+⏱️ TIME: 1:15:30 - 1:17:30 (2.0 min)
 
-Let me show you what happens when you apply this pattern to an entire project. This is where it gets really powerful.
+We've seen the pattern work. Now let's get specific about how YOU build this for your project.
+
+No more stories. Just concrete steps.
 
 ---
 
-# Another Story: Dark Mode
+# Your Dream Team
 
-Someone asked: "Can we add dark mode?"
+**4 Essential Subagents:**
 
---
-
-**Quick poll**: How many of you have built features nobody used?
-
---
-
-Yeah. Me too.
+1. **Implementer** - "How do we build this fast?"
+2. **Architect** - "Does this fit our principles?"
+3. **Security** - "What could go wrong?"
+4. **Product** - "Is this worth building?"
 
 --
 
-So we asked the subagents first.
+**Start with 2**: Implementer + one other
 
 ???
 
-This happens all the time. Someone has an idea. "Dark mode would be cool!"
+⏱️ TIME: 1:17:30 - 1:19:30 (2.0 min)
 
-Ask the audience: have you built features nobody used? Hands go up. Everyone has.
+Don't try to build all 4 at once. Start with the implementer (you always need that) plus one other based on your biggest pain point.
 
-This is where it gets interesting. Instead of jumping straight to implementation, we evaluated first.
+If you keep shipping insecure code: add security expert.
+If you violate architecture principles: add architect.
+If you build features nobody uses: add product manager.
 
-Product manager ran the numbers. Customer success checked support tickets. Engineering manager looked at opportunity cost.
-
-10 minute conversation. Prevented 13 story points of waste.
-
-The feature never got built. And that was the right decision.
+Pick your poison. Start with 2.
 
 ---
 
-# Pattern: Evaluate Before Execute
+# Subagent Anatomy
 
+```yaml
+---
+name: architect
+role: Review decisions against ADRs
+when: Feature requests, technical decisions
+---
+
+# Your Identity
+You are an architecture guardian. You enforce our documented principles.
+
+# Your Constraints
+- NEVER suggest deprecated technologies
+- ALWAYS check compatibility with Java 21
+- MUST validate against existing ADRs
+
+# Your Response Format
+1. State the architectural principle
+2. Explain how the proposal violates/aligns
+3. Suggest alternatives if needed
 ```
-Traditional workflow:
-Request → Estimate → Implement → Ship → Learn it was wrong
-
-Subagent workflow:
-Request → Evaluate (4 perspectives) → Decide → Implement (if approved)
-```
-
---
-
-**Evaluation cost**: 10-30 minutes
-
-**Waste prevented**: Days to weeks
 
 ???
 
-This is the pattern that emerges. Traditional workflow: you implement first, learn later. Often you learn AFTER shipping that you built the wrong thing.
+⏱️ TIME: 1:27:30 - 1:31:30 (4.0 min)
 
-Subagent workflow: you evaluate first from multiple perspectives. Product value. Technical feasibility. Security implications. Opportunity cost.
+This is what a subagent looks like. Three parts:
 
-Evaluation takes 10-30 minutes. But it prevents days or weeks of wasted implementation.
+1. Metadata: who are you, when do you trigger
+2. Identity: your personality and focus
+3. Constraints: hard rules you enforce
 
-The sandboxing decision: 30 minutes of evaluation prevented 12 weeks of rework.
+Keep it under 500 tokens. This loads when needed.
 
-The dark mode decision: 10 minutes of evaluation prevented 2 weeks of wasted work.
+---
 
-This compounds. Every feature. Every refactor. Every architectural decision.
+# Skill Anatomy
+
+```yaml
+---
+name: nix-http-server
+description: Create HTTP servers for Nix projects
+---
+
+# Core Constraint
+NEVER suggest Python dependencies.
+All deps MUST come from nixpkgs.
+
+# Implementation Pattern
+Use Caddy from nixpkgs:
+- Generate config with pkgs.writeText
+- Use process-compose for orchestration
+
+# Anti-Patterns
+❌ python -m http.server
+❌ npm http-server (external dependency)
+✅ caddy (in nixpkgs)
+```
+
+???
+
+Skills are simpler than subagents. They're just knowledge and constraints.
+
+Three sections:
+1. Core constraint: the one rule that must never be broken
+2. Implementation pattern: how to do it right
+3. Anti-patterns: common mistakes to avoid
+
+Under 200 tokens for metadata. Full details load when triggered.
+
+---
+
+# The Evaluation Loop
+
+**Before any feature:**
+
+1. Implementer proposes solution (2 min)
+2. Other subagents review (5 min)
+3. Conflicts surface early (3 min)
+4. Decide: build, redesign, or skip (1 min)
+
+???
+
+This is the specific workflow. Every feature goes through this.
+
+--
+
+**Total: 10 minutes**
+
+**Prevents: days to weeks of waste**
+
+???
+
+Takes 10 minutes. Saves days or weeks.
+
+The key: conflicts surface BEFORE writing code. That's when they're cheap to fix.
+
+After code is written, conflicts are expensive. Sunk cost fallacy kicks in.
+
+---
+
+# Real Numbers from FLUO
+
+**Setup cost**: 3 hours to create 4 subagents + 10 skills
+
+--
+
+**Prevented waste**:
+- Sandboxing: 12 weeks (deprecated tech)
+- Dark mode: 2 weeks (no customer demand)
+- API design: 1 week (security violation)
+- Database choice: 3 weeks (wrong scale)
+
+--
+
+**Total saved**: 18 weeks in 3 months
+
+**ROI**: 180x
+
+???
+
+Real numbers. Not hypothetical.
+
+3 hours to set up the dream team and skills.
+
+18 weeks of waste prevented in the first 3 months.
+
+That's 180x return on time invested.
+
+And it compounds. The longer you use it, the more waste you prevent.
 
 ---
 
@@ -606,7 +774,7 @@ Let's look at FLUO's results across the entire project.
 
 Context efficiency: 1,700 tokens for all guidance. 95% reduction. We can add more skills and subagents without hitting context limits.
 
-Waste prevention: The two examples I showed you - sandboxing and dark mode - saved us 14 weeks total. But there were dozens of other decisions where subagents caught issues early or questioned assumptions.
+Waste prevention: The two examples I showed you - sandboxing and dark mode - saved me 14 weeks total. But there were dozens of other decisions where subagents caught issues early or questioned assumptions.
 
 Implementation speed: This might seem counterintuitive, but we shipped faster. Why? Because architectural decisions were made upfront by subagents in minutes, not during implementation through painful refactors. Requirements were clear. Less rework.
 
@@ -702,58 +870,86 @@ These three topics build on each other. You need context efficiency to have room
 
 ---
 
-# The Real Story
+# The Complete Picture
 
-This presentation is about the **PRD-005 sandboxing decision**
+**FluoDSL AST** - what we saved:
+
+???
+
+This entire presentation has been telling one story: the FluoDSL AST decision.
 
 --
 
 **Without subagents**:
-- 2 weeks to ship SecurityManager
-- 10 weeks to rewrite when Java 21 deprecated it
+- Would have shiped deprecated SecurityManager
+- Wasted time trying to make it work
 - 3/10 security rating shipped to production
+
+???
+
+Without subagents, we would have shipped Java SecurityManager. Two weeks of work. Looks great. Ships with a 3/10 security rating. Gets completely rewritten 6 months later when we upgrade to Java 21. Total cost: 12 weeks.
 
 --
 
 **With subagents**:
 - 30 minutes of evaluation from 4 perspectives
-- 3 days to implement capability-based security
+- 3 days (in AI *time*) to implement capability-based security
 - 10/10 security rating, future-proof
-- Prevented 12-week rewrite
-
---
-
-**The pattern scales**: Apply to every feature, every decision, every architectural choice
+- Prevented waste of time and tokens
 
 ???
-
-This entire presentation has been telling one story: the PRD-005 sandboxing decision.
-
-Without subagents, we would have shipped Java SecurityManager. Two weeks of work. Looks great. Ships with a 3/10 security rating. Gets completely rewritten 6 months later when we upgrade to Java 21. Total cost: 12 weeks.
 
 With subagents, we spent 30 minutes evaluating from 4 perspectives. Architecture caught the Java 17 deprecation. Security defined the 4-layer model. QA specified comprehensive tests. Product approved the investment to avoid rework.
 
 Implementation took 3 days. We shipped 10/10 security. Future-proof. No rework needed.
 
+---
+
+# The Complete Picture
+
+**The pattern scales**: Apply to every feature, every decision, every architectural choice
+
+???
+
 The pattern scales. Apply it to every feature. Every architectural decision. Every refactor.
 
-Evaluate before execute. Multiple perspectives before any code.
+Evaluate before execute. Get multiple perspectives before any code.
+
+---
+
+# Questions?
+
+Before I wrap this up, I'd love to hear your questions.
 
 ---
 
 # Try It Yourself
 
-**FLUO is open source**: github.com/yourusername/fluo
+**FLUO is open source**: github.com/fluohq/fluo
+
+It's a *work in progress*.
+
+???
+
+FLUO is open source. You can see the exact implementation of this pattern.
 
 --
 
 **What you'll find**:
 - `.skills/` - 10 technical skills (Nix, Quarkus, React, DSL, etc.)
-- `.subagents/` - 7 strategic perspectives (PM, EM, TL, SecOps, SRE, BA, CS)
+- `.subagents/` - 7 strategic perspectives (Product Manager, Engineering Manager, Tech Lead, SecOps, SRE, Business Analyst, Customer Success)
 - `docs/adrs/` - Architecture Decision Records (for humans)
 - Git history showing Skills + Subagents in action
 
---
+???
+
+10 skills covering our technical domains. 7 subagents covering strategic perspectives. ADRs documenting the WHY for humans. Git history showing the pattern in action.
+
+---
+
+# Try It Yourself
+
+**FLUO is open source**: github.com/fluohq/fluo
 
 **Start with**:
 1. One skill (your most-violated constraint)
@@ -762,9 +958,13 @@ Evaluate before execute. Multiple perspectives before any code.
 
 ???
 
-FLUO is open source. You can see the exact implementation of this pattern.
+1. Audit your documentation. If it's over 10K tokens, you have a context window problem. Start migrating to Skills.
 
-10 skills covering our technical domains. 7 subagents covering strategic perspectives. ADRs documenting the WHY for humans. Git history showing the pattern in action.
+2. Create one skill today for the constraint AI always violates. See how it works.
+
+3. Before your next feature, set up a product-manager subagent and evaluate first. Ask "is this worth building?"
+
+These are actionable steps you can take this week. Start small. See results immediately.
 
 Don't try to replicate everything at once. Start small.
 
@@ -780,22 +980,8 @@ class: center, middle
 
 # Thank You
 
-## Questions?
+<img src="assets/images/wscoble-github.png" style="width: 360px; height: 360px;">
+
+https://github.com/wscoble
 
 .footnote[This presentation built with Skills + Subagents guiding every decision]
-
-???
-
-Thank you for your time. I'll take questions now.
-
-Remember the three calls to action:
-
-1. Audit your documentation. If it's over 10K tokens, you have a context window problem. Start migrating to Skills.
-
-2. Create one skill today for the constraint AI always violates. See how it works.
-
-3. Before your next feature, set up a product-manager subagent and evaluate first. Ask "is this worth building?"
-
-These are actionable steps you can take this week. Start small. See results immediately.
-
-Questions?
