@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beyond the Prompt: Lessons from Building with Claude Code</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/theme/black.css" id="theme-base">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/plugin/highlight/monokai.css">
+    <link rel="stylesheet" href="assets/themes.css">
+</head>
+<body>
+    <div class="reveal theme-nix">
+        <div class="slides">
+            <section>
+                <h1>Beyond the Prompt</h1>
+                <h3>Lessons from Building with Claude Code</h3>
+                <p>
+                    <small>Using ADRs to Guide AI-Assisted Development</small>
+                </p>
+            </section>
+
+            <section>
+                <h2>The Challenge</h2>
+                <p>How do you effectively delegate complex development tasks to an AI assistant?</p>
+                <ul>
+                    <li class="fragment">Vague prompts → unpredictable results</li>
+                    <li class="fragment">No architectural context → poor decisions</li>
+                    <li class="fragment">Iterative refinement → lost in conversation</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>The Solution: ADRs</h2>
+                <p><strong>Architecture Decision Records</strong></p>
+                <ul>
+                    <li class="fragment">Document <em>why</em> decisions were made</li>
+                    <li class="fragment">Provide clear constraints and boundaries</li>
+                    <li class="fragment">Enable iterative refinement with context</li>
+                    <li class="fragment">Create a shared understanding with AI</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>ADR Structure</h2>
+                <pre><code data-trim data-noescape>
+## Status
+Proposed | Accepted | Deprecated | Superseded
+
+## Context
+The problem or situation requiring a decision
+
+## Decision
+What was decided
+
+## Rationale
+Why this decision (including alternatives considered)
+
+## Consequences
+Positive, negative, and mitigations
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Case Study: This Presentation</h2>
+                <p class="fragment">This entire presentation system was built using the ADR-driven approach</p>
+                <p class="fragment"><strong>The demo IS the conversation that built it</strong></p>
+            </section>
+
+            <section>
+                <h2>ADR 001: Presentation Tech</h2>
+                <ul>
+                    <li><strong>Decision</strong>: Reveal.js</li>
+                    <li><strong>Why</strong>: Static HTML/JS, no build process, Nix-friendly</li>
+                    <li><strong>Alternatives</strong>: Marp (too limiting), Slidev (complex), Beamer (wrong format)</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>ADR 002: Infrastructure</h2>
+                <ul>
+                    <li><strong>Decision</strong>: Caddy + process-compose</li>
+                    <li><strong>Why</strong>: Configuration as code, orchestration, monitoring</li>
+                    <li><strong>Constraint Applied</strong>: "No Python" → rearchitecture</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>The Iterative Process</h2>
+                <ol>
+                    <li class="fragment">Initial ADR: Python HTTP server</li>
+                    <li class="fragment">Constraint: "Python is verboten"</li>
+                    <li class="fragment">Refinement: Evaluated alternatives (darkhttpd, miniserve, caddy)</li>
+                    <li class="fragment">Evolution: Added process-compose for orchestration</li>
+                    <li class="fragment">Result: Better architecture from constraints</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>ADR 003: The Meta Twist</h2>
+                <p><strong>Decision</strong>: The demo is the conversation itself</p>
+                <ul>
+                    <li class="fragment">Authentic: Real Claude Code usage</li>
+                    <li class="fragment">Educational: Shows thinking process</li>
+                    <li class="fragment">Reproducible: Pattern is learnable</li>
+                    <li class="fragment">Meta: This ADR documents itself as the demo</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Key Patterns</h2>
+                <ul>
+                    <li><strong>Use ADRs for context</strong> - Document decisions, not just code</li>
+                    <li><strong>Apply constraints iteratively</strong> - Better design emerges</li>
+                    <li><strong>Embrace refinement</strong> - First solution rarely perfect</li>
+                    <li><strong>Configuration as code</strong> - Generate, don't write manually</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>The Implementation</h2>
+                <pre><code class="language-nix" data-trim>
+{
+  apps.present = {
+    type = "app";
+    program = writeScript "present" ''
+      caddy_config=${makeCaddyConfig 8000 presentation}
+      compose_config=${makeProcessComposeConfig {...}}
+      exec process-compose up -f "$compose_config"
+    '';
+  };
+}
+                </code></pre>
+                <p class="fragment"><small>Configuration generated from Nix expressions</small></p>
+            </section>
+
+            <section>
+                <h2>View the Conversation</h2>
+                <p>The actual development conversation is available at:</p>
+                <p><a href="http://localhost:8001">http://localhost:8001</a></p>
+                <p class="fragment"><small>(When running <code>nix run .#demo</code>)</small></p>
+            </section>
+
+            <section>
+                <h2>Takeaways</h2>
+                <ol>
+                    <li class="fragment"><strong>ADRs provide boundaries</strong> - Guide AI with context</li>
+                    <li class="fragment"><strong>Constraints improve design</strong> - Limitations force creativity</li>
+                    <li class="fragment"><strong>Conversations are artifacts</strong> - Document the journey</li>
+                    <li class="fragment"><strong>Meta-awareness helps</strong> - Use the tool to understand the tool</li>
+                </ol>
+            </section>
+
+            <section>
+                <h2>Try It Yourself</h2>
+                <pre><code class="language-bash" data-trim>
+# Clone the repository
+git clone [repo-url]
+
+# Enter development environment
+nix develop
+
+# Run the presentation
+nix run .#present
+
+# Run the full demo
+nix run .#demo
+                </code></pre>
+            </section>
+
+            <section>
+                <h2>Resources</h2>
+                <ul>
+                    <li>ADRs in <code>docs/adr/</code></li>
+                    <li>Conversation transcript in <code>docs/demo/</code></li>
+                    <li>Implementation in <code>flake.nix</code></li>
+                    <li>Git history shows evolution</li>
+                </ul>
+            </section>
+
+            <section>
+                <h1>Thank You</h1>
+                <p>Questions?</p>
+                <br>
+                <p><small>This presentation was built with Claude Code using the techniques described</small></p>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/plugin/notes/notes.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/plugin/markdown/markdown.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.0.4/plugin/highlight/highlight.js"></script>
+    <script>
+        // Initialize Reveal.js
+        Reveal.initialize({
+            hash: true,
+            plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ],
+            transition: 'slide',
+            backgroundTransition: 'fade'
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,315 @@
+/* Updated: Centering fix v2 */
+
+/* Theme 1: Terminal Dark (Default) - Hacker aesthetic */
+.reveal.theme-terminal {
+    --r-background-color: #0d1117;
+    --r-main-font: 'Monaco', 'Courier New', monospace;
+    --r-heading-font: 'Monaco', 'Courier New', monospace;
+    --r-main-color: #58a6ff;
+    --r-heading-color: #8ce99a;
+    --r-link-color: #79c0ff;
+    --r-link-color-hover: #a5d6ff;
+    --r-selection-background-color: #1f6feb;
+    --r-code-font: 'Monaco', monospace;
+}
+
+.reveal.theme-terminal .slides section {
+    border: 2px solid #30363d;
+    background: rgba(13, 17, 23, 0.95);
+}
+
+.reveal.theme-terminal h1::before,
+.reveal.theme-terminal h2::before {
+    content: '> ';
+    color: #8ce99a;
+}
+
+.reveal.theme-terminal pre {
+    background: #161b22;
+    border: 1px solid #30363d;
+}
+
+.reveal.theme-terminal code {
+    background: #161b22;
+    color: #c9d1d9;
+}
+
+/* Theme 2: Nix Blue - Clean and professional */
+.reveal.theme-nix {
+    --r-background-color: #f5f7fa;
+    --r-main-font: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    --r-heading-font: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    --r-main-color: #2c3e50;
+    --r-heading-color: #5277c3;
+    --r-link-color: #7ebae4;
+    --r-link-color-hover: #5277c3;
+    --r-selection-background-color: #5277c3;
+    --r-code-font: 'Fira Code', monospace;
+}
+
+.reveal.theme-nix {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.reveal.theme-nix .slides section {
+    background: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.reveal.theme-nix h1,
+.reveal.theme-nix h2 {
+    font-weight: 700;
+    border-bottom: 3px solid #5277c3;
+    padding-bottom: 0.3em;
+}
+
+.reveal.theme-nix pre {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.reveal.theme-nix code {
+    background: #f8f9fa;
+    color: #5277c3;
+}
+
+/* Theme 3: Solarized Light - Easy on the eyes */
+.reveal.theme-solarized {
+    --r-background-color: #fdf6e3;
+    --r-main-font: 'Source Sans Pro', sans-serif;
+    --r-heading-font: 'Source Sans Pro', sans-serif;
+    --r-main-color: #657b83;
+    --r-heading-color: #268bd2;
+    --r-link-color: #2aa198;
+    --r-link-color-hover: #859900;
+    --r-selection-background-color: #eee8d5;
+    --r-code-font: 'Source Code Pro', monospace;
+}
+
+.reveal.theme-solarized .slides section {
+    background: #fdf6e3;
+    border: 1px solid #eee8d5;
+}
+
+.reveal.theme-solarized pre {
+    background: #eee8d5;
+    border: 1px solid #d3cbb7;
+}
+
+.reveal.theme-solarized code {
+    background: #eee8d5;
+    color: #268bd2;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+}
+
+/* Theme 4: Dracula - Vibrant dark mode */
+.reveal.theme-dracula {
+    --r-background-color: #282a36;
+    --r-main-font: 'Helvetica Neue', Helvetica, sans-serif;
+    --r-heading-font: 'Helvetica Neue', Helvetica, sans-serif;
+    --r-main-color: #f8f8f2;
+    --r-heading-color: #ff79c6;
+    --r-link-color: #8be9fd;
+    --r-link-color-hover: #50fa7b;
+    --r-selection-background-color: #44475a;
+    --r-code-font: 'Fira Code', monospace;
+}
+
+.reveal.theme-dracula {
+    background: linear-gradient(135deg, #282a36 0%, #44475a 100%);
+}
+
+.reveal.theme-dracula h1,
+.reveal.theme-dracula h2 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.reveal.theme-dracula pre {
+    background: #1e1f29;
+    border: 1px solid #44475a;
+}
+
+.reveal.theme-dracula code {
+    background: #44475a;
+    color: #50fa7b;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+}
+
+/* Theme 5: Nord - Minimalist arctic */
+.reveal.theme-nord {
+    --r-background-color: #2e3440;
+    --r-main-font: 'Roboto', sans-serif;
+    --r-heading-font: 'Roboto Slab', serif;
+    --r-main-color: #eceff4;
+    --r-heading-color: #88c0d0;
+    --r-link-color: #81a1c1;
+    --r-link-color-hover: #5e81ac;
+    --r-selection-background-color: #4c566a;
+    --r-code-font: 'JetBrains Mono', monospace;
+}
+
+.reveal.theme-nord .slides section {
+    background: rgba(46, 52, 64, 0.95);
+    border-left: 4px solid #88c0d0;
+}
+
+.reveal.theme-nord pre {
+    background: #3b4252;
+    border: 1px solid #4c566a;
+}
+
+.reveal.theme-nord code {
+    background: #3b4252;
+    color: #8fbcbb;
+}
+
+.reveal.theme-nord .fragment.highlight-current-blue.current-fragment {
+    color: #88c0d0;
+}
+
+.reveal.theme-nord strong {
+    color: #88c0d0;
+}
+
+/* Theme selector UI - Floating overlay */
+#theme-selector {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.85);
+    padding: 12px 18px;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1);
+    pointer-events: auto;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    transition: all 0.3s ease;
+    isolation: isolate;
+}
+
+#theme-selector:hover {
+    background: rgba(0, 0, 0, 0.95);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Ensure theme selector doesn't interfere with presentation */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.reveal {
+    pointer-events: auto;
+}
+
+#theme-selector label {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 13px;
+    margin-right: 10px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+#theme-selector select {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 7px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    font-weight: 500;
+}
+
+#theme-selector select:hover {
+    background: white;
+    border-color: rgba(88, 166, 255, 0.5);
+}
+
+#theme-selector select:focus {
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.4);
+    border-color: rgba(88, 166, 255, 0.8);
+}
+
+/* Adaptive styling based on presentation theme */
+.reveal.has-dark-background ~ #theme-selector {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+.reveal.has-light-background ~ #theme-selector {
+    background: rgba(0, 0, 0, 0.75);
+}
+
+/* Large screen readability - 100" at 15 feet */
+.reveal {
+    font-size: 38px;
+}
+
+.reveal h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+}
+
+.reveal h2 {
+    font-size: 2em;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+}
+
+.reveal h3 {
+    font-size: 1.5em;
+    margin-bottom: 0.4em;
+}
+
+.reveal p {
+    line-height: 1.5;
+    margin: 0.5em 0;
+}
+
+.reveal li {
+    margin: 0.4em 0;
+    line-height: 1.5;
+}
+
+.reveal ul, .reveal ol {
+    text-align: left;
+}
+
+.reveal pre {
+    font-size: 0.65em;
+}
+
+.reveal code {
+    font-size: 0.9em;
+}
+
+.reveal small {
+    font-size: 0.7em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #theme-selector {
+        top: 10px;
+        right: 10px;
+        padding: 8px;
+    }
+
+    #theme-selector label {
+        display: none;
+    }
+
+    #theme-selector select {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+}

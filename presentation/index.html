@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beyond the Prompt: Lessons from Building with Claude Code</title>
+    <link rel="stylesheet" href="assets/remark-theme.css">
+</head>
+<body>
+    <script src="vendor/remark.min.js"></script>
+    <script>
+        var slideshow = remark.create({
+            sourceUrl: 'slides.md',
+            highlightStyle: 'monokai',
+            highlightLines: true,
+            highlightSpans: true,
+            ratio: '16:9',
+            navigation: {
+                scroll: false,
+                touch: true,
+                click: false
+            }
+        });
+
+        // Enhanced presenter mode with separate window control
+        var presenterWindow = null;
+
+        // Listen for 'S' key to open separate presenter window
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 's' || e.key === 'S') {
+                if (!presenterWindow || presenterWindow.closed) {
+                    // Open presenter window
+                    presenterWindow = window.open(
+                        window.location.href + '?presenter=true',
+                        'presenter',
+                        'width=1200,height=800'
+                    );
+                }
+            }
+        });
+
+        // Check if this is the presenter window
+        const urlParams = new URLSearchParams(window.location.search);
+        const isPresenter = urlParams.get('presenter') === 'true';
+
+        if (isPresenter) {
+            // Enable built-in presenter mode for this window
+            document.addEventListener('DOMContentLoaded', function() {
+                slideshow.gotoSlide(slideshow.getCurrentSlideIndex());
+            });
+
+            // Auto-trigger presenter mode
+            setTimeout(function() {
+                // Simulate 'p' keypress for presenter mode
+                var event = new KeyboardEvent('keydown', { key: 'p' });
+                document.dispatchEvent(event);
+            }, 500);
+        }
+
+        // Synchronize slides between windows using localStorage
+        slideshow.on('showSlide', function(slide) {
+            if (!isPresenter) {
+                // Main window broadcasts slide changes
+                localStorage.setItem('current-slide', slide.getSlideIndex());
+            }
+        });
+
+        // Listen for slide changes from main window (if presenter)
+        if (isPresenter) {
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'current-slide') {
+                    var slideIndex = parseInt(e.newValue);
+                    if (slideshow.getCurrentSlideIndex() !== slideIndex) {
+                        slideshow.gotoSlide(slideIndex);
+                    }
+                }
+            });
+        }
+
+        // Display keyboard shortcuts on '?'
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '?') {
+                alert(
+                    'Keyboard Shortcuts:\n\n' +
+                    'Arrow keys / Space: Navigate slides\n' +
+                    'S: Open separate presenter window\n' +
+                    'P: Toggle presenter mode (current window)\n' +
+                    'C: Clone presentation\n' +
+                    'F: Fullscreen\n' +
+                    '?: Show this help'
+                );
+            }
+        });
+
+    </script>
+</body>
+</html>

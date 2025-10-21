@@ -1,0 +1,269 @@
+@import url(https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap);
+
+/* Nix Blue Theme for Remark - Optimized for 100" at 15ft */
+
+body {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    font-size: 38px;
+    color: #2c3e50;
+    background: white !important;
+}
+
+.remark-slide-scaler {
+    background: white !important;
+}
+
+.remark-slide-container {
+    background: white !important;
+}
+
+.remark-slide-content {
+    background: white !important;
+    padding: 60px 80px;
+}
+
+/* Headings */
+h1 {
+    font-size: 3em;
+    font-weight: 700;
+    color: #5277c3;
+    margin-bottom: 0.5em;
+    border-bottom: 4px solid #5277c3;
+    padding-bottom: 0.3em;
+}
+
+h2 {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #5277c3;
+    margin-bottom: 0.5em;
+    border-bottom: 3px solid #5277c3;
+    padding-bottom: 0.2em;
+}
+
+h3 {
+    font-size: 2em;
+    font-weight: 600;
+    color: #5277c3;
+    margin-bottom: 0.4em;
+}
+
+/* Text */
+p {
+    line-height: 1.5;
+    margin: 0.6em 0;
+}
+
+/* Lists */
+ul, ol {
+    line-height: 1.6;
+    margin: 0.8em 0;
+}
+
+li {
+    margin: 0.5em 0;
+}
+
+/* Links */
+a {
+    color: #7ebae4;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s;
+}
+
+a:hover {
+    border-bottom-color: #5277c3;
+}
+
+/* Code */
+.remark-code, .remark-inline-code {
+    font-family: 'Fira Code', 'Monaco', monospace;
+}
+
+.remark-inline-code {
+    background: #f8f9fa;
+    color: #5277c3;
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.remark-code {
+    font-size: 0.75em;
+    line-height: 1.5;
+}
+
+pre {
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    padding: 1.2em;
+    margin: 1em 0;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Tables */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+    font-size: 0.9em;
+}
+
+th {
+    background: #5277c3;
+    color: white;
+    padding: 0.6em;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 0.6em;
+    border-bottom: 1px solid #e9ecef;
+}
+
+tr:hover {
+    background: #f8f9fa;
+}
+
+/* Blockquotes */
+blockquote {
+    border-left: 5px solid #5277c3;
+    padding-left: 1.5em;
+    margin: 1em 0;
+    font-style: italic;
+    color: #666;
+}
+
+/* Strong/Bold */
+strong {
+    font-weight: 700;
+    color: #5277c3;
+}
+
+/* Emphasis/Italic */
+em {
+    font-style: italic;
+    color: #666;
+}
+
+/* Slide number */
+.remark-slide-number {
+    font-size: 0.6em;
+    color: #999;
+    opacity: 0.6;
+}
+
+/* Footnotes */
+.footnote {
+    position: absolute;
+    bottom: 3em;
+    font-size: 0.7em;
+    color: #999;
+}
+
+/* Center and middle classes */
+.center {
+    text-align: center;
+}
+
+.middle {
+    vertical-align: middle;
+}
+
+/* Two column layout */
+.left-column {
+    width: 48%;
+    float: left;
+}
+
+.right-column {
+    width: 48%;
+    float: right;
+}
+
+/* Incremental reveal styling */
+.remark-visible {
+    opacity: 1;
+}
+
+.remark-invisible {
+    opacity: 0;
+}
+
+/* Syntax highlighting adjustments for monokai */
+.hljs {
+    background: #272822 !important;
+    color: #f8f8f2 !important;
+    padding: 1.2em !important;
+    border-radius: 6px;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal {
+    color: #f92672 !important;
+}
+
+.hljs-string,
+.hljs-title,
+.hljs-section {
+    color: #e6db74 !important;
+}
+
+.hljs-type,
+.hljs-class .hljs-title {
+    color: #66d9ef !important;
+}
+
+.hljs-number,
+.hljs-regexp,
+.hljs-link {
+    color: #ae81ff !important;
+}
+
+/* Checkmarks and X marks */
+.remark-slide-content li::before {
+    content: none;
+}
+
+/* Special styling for centered slides */
+.remark-slide-content.center.middle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.remark-slide-content.center.middle h1 {
+    border-bottom: none;
+    margin-bottom: 0.3em;
+}
+
+/* Image styling */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Presenter notes styling */
+.remark-notes {
+    font-size: 26px;
+}
+
+/* Print styles */
+@media print {
+    .remark-slide-scaler {
+        width: 100% !important;
+        height: 100% !important;
+        transform: scale(1) !important;
+        top: 0 !important;
+        left: 0 !important;
+    }
+}
